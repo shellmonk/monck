@@ -1,0 +1,32 @@
+include brit_names (csv.load "./brit_names.csv" |> csv.skip 1 |> csv.col "name")
+
+data Library n (
+    id uuid!,
+    name ("lib1" | "lib2" | "lib2" | name!),
+    address (ORACLE.string |> STD.string.length 5 50),
+    open false,
+    books (Book (lid id) |> STD.repeat n)
+)
+
+// testing this is comment
+
+data Book lid (
+    id (ORACLE.integer |> STD.integer.range 100 200),
+    name (name 10 20),
+    lib_id lid,
+    author Author
+)
+
+data Author (
+    id uuid!,
+    name name!,
+    type "author",
+    books [10],
+    height 1.8x0
+)
+
+var a (1)
+
+gen sequence (STD.inc a)
+
+main (Library 5 |> OUT.json "output.json")
